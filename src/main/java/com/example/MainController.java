@@ -37,32 +37,32 @@ public class MainController {
 
 
 	private HBox createToDoHBox(ToDo todo) {
+		// Create View Item
 		var completedCheckBox = new CheckBox();
 		completedCheckBox.setSelected(todo.isCompleted());
 		completedCheckBox.getStyleClass().add("todo-completed");
-		
-		completedCheckBox.selectedProperty().bindBidirectional(todo.getCompletedProperty());
-		
-
+				
 		var titleField = new TextField(todo.getTitle());
 		titleField.getStyleClass().add("todo-title");
 		HBox.setHgrow(titleField, Priority.ALWAYS);
-		
-		titleField.textProperty().bindBidirectional(todo.getTitleProperty());
-		
+			
 		var datePicker = new DatePicker(todo.getDate());
 		datePicker.getStyleClass().add("todo-date");
 		datePicker.setPrefWidth(105);
 		HBox.setHgrow(datePicker, Priority.NEVER);
 		
-		datePicker.valueProperty().bindBidirectional(todo.getDateProperty());
-
 		var deleteBtn = new Button("削除");
 		deleteBtn.getStyleClass().add("todo-delete");
 
 		var todoItem = new HBox(completedCheckBox, titleField, datePicker, deleteBtn);
 		todoItem.getStyleClass().add("todo-item");
 
+		// Bind Model to View
+		completedCheckBox.selectedProperty().bindBidirectional(todo.getCompletedProperty());
+		titleField.textProperty().bindBidirectional(todo.getTitleProperty());
+		datePicker.valueProperty().bindBidirectional(todo.getDateProperty());
+
+		// Event Handler
 		deleteBtn.setOnAction(e -> {
 			model.remove(todo);
 			todoListItems.remove(todoItem);
@@ -81,6 +81,7 @@ public class MainController {
 			todoListItems.add(createToDoHBox(todo));
 		}
     	
+		// Event Handler
     	addBtn.setOnAction(e -> {
     		var todo = model.create(headerTitleField.getText(), headerDatePicker.getValue());
     		todoListItems.add(createToDoHBox(todo));
