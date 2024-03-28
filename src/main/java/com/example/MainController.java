@@ -71,7 +71,7 @@ public class MainController {
 		return todoItem;
 	}
 	
-    public void initModel(ToDoManager manager) {
+    public void setModel(ToDoManager manager) {
 		if (this.model != null)
 			throw new IllegalStateException("Model can only be initialized once");
 		

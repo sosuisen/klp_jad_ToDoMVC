@@ -26,7 +26,7 @@ public class MvcApp extends Application {
 			
 			// Create and set Model to Controller
 			var model = new ToDoManager();
-			mainController.initModel(model);
+			mainController.setModel(model);
 
 			// Build scene and stage to show View on the screen
 			var scene = new Scene(root);
