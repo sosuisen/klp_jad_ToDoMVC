@@ -1,6 +1,7 @@
 package com.example;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.example.model.ToDo;
 import com.example.model.ToDoManager;
@@ -18,7 +19,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class MainController {
-
+	private final String TODO_ID_PREFIX = "todo-";
+	
 	@FXML
 	private Button addBtn;
 
@@ -54,6 +56,8 @@ public class MainController {
 		var todoItem = new HBox(completedCheckBox, titleField, datePicker, deleteBtn);
 		todoItem.getStyleClass().add("todo-item");
 
+		todoItem.setId(TODO_ID_PREFIX + todo.getId());
+		
 		// Bind Model to View
 		completedCheckBox.selectedProperty().bindBidirectional(todo.completedProperty());
 		titleField.textProperty().bindBidirectional(todo.titleProperty());
@@ -88,7 +92,8 @@ public class MainController {
 					change.getAddedSubList().forEach(todo -> todoListItems.add(createToDoHBox(todo)));
 				}
 				if (change.wasRemoved()) {
-					todoListItems.remove(change.getFrom(), change.getTo() + 1);
+					List<String> ids = change.getRemoved().stream().map(todo -> TODO_ID_PREFIX + todo.getId()).toList();
+					todoListItems.removeIf(node -> ids.contains(node.getId()));
 				}
 			}
 		});
