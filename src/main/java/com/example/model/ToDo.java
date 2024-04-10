@@ -11,6 +11,7 @@ import javafx.beans.property.StringProperty;
 
 public class ToDo {
 	private int id;
+	// .getName()で名前を取得するには、コンストラクタの第2引数に名前を指定する
 	private StringProperty title = new SimpleStringProperty(this, "title");
 	private ObjectProperty<LocalDate> date = new SimpleObjectProperty<>(this, "date");
 	private BooleanProperty completed = new SimpleBooleanProperty(this, "completed");
