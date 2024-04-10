@@ -10,63 +10,60 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ToDo {
-	private StringProperty titleProperty = new SimpleStringProperty();	
-	private ObjectProperty<LocalDate> dateProperty = new SimpleObjectProperty<>();
-	private BooleanProperty completedProperty = new SimpleBooleanProperty();
-	
 	private int id;
-	
+	private StringProperty title = new SimpleStringProperty();
+	private ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
+	private BooleanProperty completed = new SimpleBooleanProperty();
+
+	// Constructor
 	public ToDo(int id, String title, LocalDate date, boolean completed) {
 		this.id = id;
 		setTitle(title);
 		setDate(date);
 		setCompleted(completed);
-		
-		titleProperty.addListener((observable, oldValue, newValue) -> {
-			System.out.println("Title changed: [" + id + "] " + oldValue + " -> " + newValue);
-		});
-		dateProperty.addListener((observable, oldValue, newValue) -> {
-			System.out.println("Date changed: [" + id + "] " + oldValue + " -> " + newValue);
-		});
-		completedProperty.addListener((observable, oldValue, newValue) -> {
-			System.out.println("Completed changed: [" + id + "] " + oldValue + " -> " + newValue);
-		});
 	}
 
-	public StringProperty getTitleProperty() {
-		return titleProperty;
-	}
-	
-	public ObjectProperty<LocalDate> getDateProperty() {
-		return dateProperty;
-	}
-	
-	public BooleanProperty getCompletedProperty() {
-		return completedProperty;
-	}
-	
+	// id is read-only
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	// Title
+	public StringProperty titleProperty() {
+		return title;
 	}
+
 	public String getTitle() {
-		return titleProperty.get();
+		return title.get();
 	}
+
 	public void setTitle(String title) {
-		titleProperty.set(title);
+		this.title.set(title);
 	}
+
+	// Date
+	public ObjectProperty<LocalDate> dateProperty() {
+		return date;
+	}
+
 	public LocalDate getDate() {
-		return dateProperty.get(); 
+		return date.get();
 	}
+
 	public void setDate(LocalDate localDate) {
-		dateProperty.set(localDate);
+		this.date.set(localDate);
 	}
+
+	// Completed
+	public BooleanProperty completedProperty() {
+		return completed;
+	}
+
 	public boolean isCompleted() {
-		return completedProperty.get();
+		return completed.get();
 	}
+
 	public void setCompleted(boolean completed) {
-		completedProperty.set(completed);
+		this.completed.set(completed);
 	}
 }
