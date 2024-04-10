@@ -11,9 +11,9 @@ import javafx.beans.property.StringProperty;
 
 public class ToDo {
 	private int id;
-	private StringProperty title = new SimpleStringProperty();
-	private ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
-	private BooleanProperty completed = new SimpleBooleanProperty();
+	private StringProperty title = new SimpleStringProperty(this, "title");
+	private ObjectProperty<LocalDate> date = new SimpleObjectProperty<>(this, "date");
+	private BooleanProperty completed = new SimpleBooleanProperty(this, "completed");
 
 	// Constructor
 	public ToDo(int id, String title, LocalDate date, boolean completed) {

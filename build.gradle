@@ -32,7 +32,7 @@ application {
     mainModule = moduleName
     mainClass = entryPoint
     if (System.getProperty('DEBUG', 'false') == 'true') {
-        applicationDefaultJvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
+        applicationDefaultJvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005"]
     }
 }
 
