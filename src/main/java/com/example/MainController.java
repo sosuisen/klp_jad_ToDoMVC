@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -33,6 +34,10 @@ public class MainController {
 	@FXML
 	private VBox todoListVBox;
 
+	@FXML
+    private ChoiceBox<Integer> headerPriorityChoiceBox;
+
+
 	private ToDoManager model;
 
 	private HBox createToDoHBox(ToDo todo) {
@@ -49,11 +54,16 @@ public class MainController {
 		datePicker.getStyleClass().add("todo-date");
 		datePicker.setPrefWidth(105);
 		HBox.setHgrow(datePicker, Priority.NEVER);
+		
+		var priorityChoiceBox = new ChoiceBox<Integer>();
+		priorityChoiceBox.getItems().addAll(1, 2, 3, 4, 5);
+		priorityChoiceBox.setValue(todo.getPriority());
+		HBox.setHgrow(priorityChoiceBox, Priority.NEVER);
 
 		var deleteBtn = new Button("削除");
 		deleteBtn.getStyleClass().add("todo-delete");
 
-		var todoItem = new HBox(completedCheckBox, titleField, datePicker, deleteBtn);
+		var todoItem = new HBox(completedCheckBox, titleField, datePicker, priorityChoiceBox, deleteBtn);
 		todoItem.getStyleClass().add("todo-item");
 
 		todoItem.setId(TODO_ID_PREFIX + todo.getId());
@@ -62,6 +72,7 @@ public class MainController {
 		completedCheckBox.selectedProperty().bindBidirectional(todo.completedProperty());
 		titleField.textProperty().bindBidirectional(todo.titleProperty());
 		datePicker.valueProperty().bindBidirectional(todo.dateProperty());
+		priorityChoiceBox.valueProperty().bindBidirectional(todo.priorityProperty());
 		
 		// Event Handler
 		deleteBtn.setOnAction(e -> {
@@ -81,7 +92,7 @@ public class MainController {
 
 		// Event Handler
 		addBtn.setOnAction(e -> {
-			model.create(headerTitleField.getText(), headerDatePicker.getValue(), false);
+			model.create(headerTitleField.getText(), headerDatePicker.getValue(), headerPriorityChoiceBox.getValue(), false);
 			headerTitleField.clear();
 		});
 
@@ -104,5 +115,8 @@ public class MainController {
 	public void initialize() {
 		// Set today
 		headerDatePicker.setValue(LocalDate.now());
+		
+	    headerPriorityChoiceBox.getItems().addAll(1, 2, 3, 4, 5);
+	    headerPriorityChoiceBox.setValue(3);
 	}
 }

@@ -24,33 +24,36 @@ public class ToDoManager {
 		
 		todo.dateProperty().addListener((observable, oldValue, newValue) -> 
 				System.out.println("Date changed #" + todo.getId() + " : " + newValue));
+		
+		todo.priorityProperty().addListener((observable, oldValue, newValue) ->
+		        System.out.println("Priority changed #" + todo.getId() + " : " + newValue));
 
 		todo.completedProperty().addListener((observable, oldValue, newValue) -> 
 				System.out.println("Completed changed #" + todo.getId() + " : " + newValue));
 	}
 
-	public void create(String title, LocalDate date, boolean completed) {
+	public void create(String title, LocalDate date, int priority, boolean completed) {
 		int newId;
 		if (todos.size() > 0)
 			newId = todos.stream().max((todo1, todo2) -> todo1.getId() - todo2.getId()).get().getId() + 1;
 		else
 			newId = 0;
 
-		var newToDo = new ToDo(newId, title, date, false);
+		var newToDo = new ToDo(newId, title, date, priority, false);
 		addListener(newToDo);
 		todos.add(newToDo);
 
 		System.out.println("Added #" + newId);
 	}
 
-	private void load(int id, String title, LocalDate date, boolean completed) {
-		var todo = new ToDo(id, title, date, completed);
+	private void load(int id, String title, LocalDate date, int priority, boolean completed) {
+		var todo = new ToDo(id, title, date, priority, completed);
 		addListener(todo);
 		todos.add(todo);
 	}
 
 	public void loadInitialData() {
-		load(0, "Design", LocalDate.parse("2022-12-01"), true);
-		load(1, "Implementation", LocalDate.parse("2022-12-07"), false);
+		load(0, "Design", LocalDate.parse("2022-12-01"), 4, true);
+		load(1, "Implementation", LocalDate.parse("2022-12-07"), 3, false);
 	}
 }

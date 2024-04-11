@@ -14,12 +14,14 @@ public class ToDo {
 	private StringProperty title = new SimpleStringProperty();
 	private ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
 	private BooleanProperty completed = new SimpleBooleanProperty();
+	private ObjectProperty<Integer> priority = new SimpleObjectProperty<>();
 
 	// Constructor
-	public ToDo(int id, String title, LocalDate date, boolean completed) {
+	public ToDo(int id, String title, LocalDate date, int priority, boolean completed) {
 		this.id = id;
 		setTitle(title);
 		setDate(date);
+		setPriority(priority);
 		setCompleted(completed);
 	}
 
@@ -53,7 +55,20 @@ public class ToDo {
 	public void setDate(LocalDate localDate) {
 		this.date.set(localDate);
 	}
+	
+	// Priority
+	public ObjectProperty<Integer> priorityProperty() {
+		return priority;
+	}
 
+	public int getPriority() {
+		return priority.get();
+	}
+	
+	public void setPriority(int priority) {
+		this.priority.set(priority);
+	}
+	
 	// Completed
 	public BooleanProperty completedProperty() {
 		return completed;
