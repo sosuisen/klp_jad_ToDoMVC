@@ -6,14 +6,18 @@ import java.util.List;
 import com.example.model.ToDo;
 import com.example.model.ToDoManager;
 
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -21,6 +25,12 @@ import javafx.scene.layout.VBox;
 
 public class MainController {
 	private final String TODO_ID_PREFIX = "todo-";
+	
+	@FXML
+	private MenuItem menuItemAbout;
+	
+	@FXML
+	private MenuItem menuItemClose;
 	
 	@FXML
 	private Button addBtn;
@@ -40,6 +50,14 @@ public class MainController {
 
 	private ToDoManager model;
 
+	private void showInfo(String txt) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("アプリの情報");
+		alert.setHeaderText(null);
+		alert.setContentText(txt);
+		alert.showAndWait();
+	}
+		
 	private HBox createToDoHBox(ToDo todo) {
 		// Create View Items
 		var completedCheckBox = new CheckBox();
@@ -118,5 +136,8 @@ public class MainController {
 		
 	    headerPriorityChoiceBox.getItems().addAll(1, 2, 3, 4, 5);
 	    headerPriorityChoiceBox.setValue(3);
+
+		menuItemAbout.setOnAction(e -> showInfo("ToDo App"));		
+		menuItemClose.setOnAction(e -> Platform.exit());
 	}
 }
