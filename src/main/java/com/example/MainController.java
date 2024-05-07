@@ -103,9 +103,7 @@ public class MainController {
 		datePicker.valueProperty().addListener(listener);
 
 		// Event Handler
-		deleteBtn.setOnAction(e -> {
-			model.remove(todo);
-		});
+		deleteBtn.setOnAction(e -> model.remove(todo));
 
 		return todoItem;
 	}
