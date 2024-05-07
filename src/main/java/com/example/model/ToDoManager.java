@@ -30,27 +30,23 @@ public class ToDoManager {
 	}
 
 	public void create(String title, LocalDate date, boolean completed) {
-		int newId;
+		int newId = 0;
 		if (todos.size() > 0)
 			newId = todos.stream().max((todo1, todo2) -> todo1.getId() - todo2.getId()).get().getId() + 1;
-		else
-			newId = 0;
 
-		var newToDo = new ToDo(newId, title, date, false);
-		addListener(newToDo);
-		todos.add(newToDo);
+		addNewToDo(newId, title, date, completed);
 
 		System.out.println("Added #" + newId);
 	}
 
-	private void load(int id, String title, LocalDate date, boolean completed) {
+	private void addNewToDo(int id, String title, LocalDate date, boolean completed) {
 		var todo = new ToDo(id, title, date, completed);
 		addListener(todo);
 		todos.add(todo);
 	}
 
 	public void loadInitialData() {
-		load(0, "Design", LocalDate.parse("2022-12-01"), true);
-		load(1, "Implementation", LocalDate.parse("2022-12-07"), false);
+		addNewToDo(0, "Design", LocalDate.parse("2022-12-01"), true);
+		addNewToDo(1, "Implementation", LocalDate.parse("2022-12-07"), false);
 	}
 }

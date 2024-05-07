@@ -82,9 +82,7 @@ public class MainController {
 		datePicker.valueProperty().bindBidirectional(todo.dateProperty());
 		
 		// Event Handler
-		deleteBtn.setOnAction(e -> {
-			model.remove(todo);
-		});
+		deleteBtn.setOnAction(e -> model.remove(todo));
 
 		return todoItem;
 	}
