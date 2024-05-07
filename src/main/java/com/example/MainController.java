@@ -93,9 +93,7 @@ public class MainController {
 		priorityChoiceBox.valueProperty().bindBidirectional(todo.priorityProperty());
 		
 		// Event Handler
-		deleteBtn.setOnAction(e -> {
-			model.remove(todo);
-		});
+		deleteBtn.setOnAction(e -> model.remove(todo));
 
 		return todoItem;
 	}
