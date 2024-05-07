@@ -30,7 +30,7 @@ public class MvcApp extends Application {
 
 			// Build scene and stage to show View on the screen
 			var scene = new Scene(root);
-			stage.setTitle("Memo");
+			stage.setTitle("ToDo App");
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
