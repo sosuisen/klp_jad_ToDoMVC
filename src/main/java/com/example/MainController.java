@@ -1,6 +1,7 @@
 package com.example;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 import com.example.model.ToDo;
@@ -27,8 +28,6 @@ import javafx.scene.layout.VBox;
 
 public class MainController {
 	private final String TODO_ID_PREFIX = "todo-";
-	private final String DATE_ID_POSTFIX = "-date";
-	private final String COMPLETED_ID_POSTFIX = "-completed";
 
 	@FXML
 	private MenuItem menuItemAbout;
@@ -66,7 +65,6 @@ public class MainController {
 		var completedCheckBox = new CheckBox();
 		completedCheckBox.setSelected(todo.isCompleted());
 		completedCheckBox.getStyleClass().add("todo-completed");
-		completedCheckBox.setId(TODO_ID_PREFIX + todo.getId() + COMPLETED_ID_POSTFIX);
 
 		var titleField = new TextField(todo.getTitle());
 		titleField.getStyleClass().add("todo-title");
@@ -76,7 +74,6 @@ public class MainController {
 		datePicker.getStyleClass().add("todo-date");
 		datePicker.setPrefWidth(105);
 		HBox.setHgrow(datePicker, Priority.NEVER);
-		datePicker.setId(TODO_ID_PREFIX + todo.getId() + DATE_ID_POSTFIX);
 
 		var priorityChoiceBox = new ChoiceBox<Integer>();
 		priorityChoiceBox.getItems().addAll(1, 2, 3, 4, 5);
@@ -141,19 +138,9 @@ public class MainController {
 	}
 
 	private void sortByCompletedAndDate() {
-		// Use FXCollections.sort() to sort ObservableList
-		FXCollections.sort(
-				todoListVBox.getChildren(), (node1, node2) -> {
-					CheckBox completed1 = (CheckBox) todoListVBox.lookup("#" + node1.getId() + COMPLETED_ID_POSTFIX);
-					CheckBox completed2 = (CheckBox) todoListVBox.lookup("#" + node2.getId() + COMPLETED_ID_POSTFIX);
-
-					if (completed1.isSelected() == completed2.isSelected()) {
-						DatePicker date1 = (DatePicker) todoListVBox.lookup("#" + node1.getId() + DATE_ID_POSTFIX);
-						DatePicker date2 = (DatePicker) todoListVBox.lookup("#" + node2.getId() + DATE_ID_POSTFIX);
-						return date1.valueProperty().get().compareTo(date2.valueProperty().get());
-					} else
-						return completed1.isSelected() ? 1 : -1;
-				});
+		FXCollections.sort(todoListVBox.getChildren(), 
+				Comparator.comparing(node -> ((CheckBox)((HBox)node).getChildren().get(0)).isSelected())
+					.thenComparing(node -> ((DatePicker)((HBox)node).getChildren().get(2)).getValue()));
 	}
 
 	public void initialize() {
